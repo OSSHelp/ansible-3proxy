@@ -1,0 +1,9 @@
+---
+- name: reload 3proxy unit
+  systemd:
+    daemon_reload: yes
+
+- name: restart 3proxy service
+  systemd:
+    name: "{{ proxy3_service_name }}"
+    state: restarted

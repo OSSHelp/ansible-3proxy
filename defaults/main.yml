@@ -1,0 +1,22 @@
+---
+proxy3_version: "0.8.13"
+proxy3_binaries_url: "https://oss.help/builds/pub/3proxy/{{ proxy3_version }}"
+proxy3_binaries_sum: "sha256:https://oss.help/builds/pub/3proxy/{{ proxy3_version }}/SHA256SUMS"
+proxy3_binaries_list: [3proxy, dighosts, ftppr, mycrypt, pop3p, proxy, socks, tcppm, udppm]
+proxy3_service_name: "3proxy"
+proxy3_conf_dir: "/etc/{{ proxy3_service_name }}"
+proxy3_conf_path: "{{ proxy3_conf_dir }}/3proxy.cfg"
+proxy3_passwd_path: "{{ proxy3_conf_dir }}/3proxy.passwd"
+proxy3_binaries_dir: "/usr/local/bin"
+proxy3_binary_path: "{{ proxy3_binaries_dir }}/3proxy"
+proxy3_pid_path: "/var/run/{{ proxy3_service_name }}/3proxy.pid"
+proxy3_user: "nobody"
+proxy3_group: "nogroup"
+
+proxy3_nservers:
+  - 8.8.8.8
+  - 8.8.4.4
+
+proxy3_nscache: 65536
+proxy3_timeouts: "1 5 30 60 180 1800 15 60"
+proxy3_auth: "cache strong"

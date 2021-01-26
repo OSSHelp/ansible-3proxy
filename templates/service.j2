@@ -1,0 +1,21 @@
+[Unit]
+Description={{ proxy3_service_name }}
+ConditionFileIsExecutable={{ proxy3_binary_path }}
+
+[Service]
+Type=simple
+StartLimitInterval=5
+StartLimitBurst=10
+User={{ proxy3_user }}
+Group={{ proxy3_group }}
+RuntimeDirectory={{ proxy3_service_name }}
+RuntimeDirectoryMode=0755
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{ proxy3_service_name }}
+ExecStart={{ proxy3_binary_path }} {{ proxy3_conf_path }}
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,44 @@
+---
+- name: intall binaries
+  get_url:
+    url: "{{ proxy3_binaries_url }}/{{ item }}"
+    dest: "{{ proxy3_binaries_dir }}/"
+    checksum: "{{ proxy3_binaries_sum }}"
+    mode: 0755
+  loop: "{{ proxy3_binaries_list }}"
+  notify: restart 3proxy service
+
+- name: create config dir
+  file:
+    path: "{{ proxy3_conf_dir }}"
+    state: directory
+    owner: "root"
+    group: "{{ proxy3_group }}"
+    mode: '0750'
+
+- name: configuration
+  template:
+    src: config.j2
+    dest: "{{ proxy3_conf_path }}"
+  notify: restart 3proxy service
+
+- name: users auth file
+  template:
+    src: passwd.j2
+    dest: "{{ proxy3_passwd_path }}"
+  notify: restart 3proxy service
+
+- name: create systemd unit
+  template:
+    src: service.j2
+    dest: "/etc/systemd/system/{{ proxy3_service_name }}.service"
+  notify:
+    - reload 3proxy unit
+    - restart 3proxy service
+
+- meta: flush_handlers
+
+- name: enable systemd unit
+  systemd:
+    name: "{{ proxy3_service_name }}"
+    enabled: true

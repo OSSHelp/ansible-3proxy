@@ -1,0 +1,13 @@
+pidfile {{ proxy3_pid_path }}
+
+{% for nserver in proxy3_nservers %}
+nserver {{ nserver }}
+{% endfor %}
+nscache {{ proxy3_nscache }}
+timeouts {{ proxy3_timeouts }}
+users ${{ proxy3_passwd_path }}
+auth {{ proxy3_auth }}
+
+{% for gateway in proxy3_gateways | default([]) %}
+{{ gateway.type | default('proxy') }} {{ gateway.options }}
+{% endfor %}
